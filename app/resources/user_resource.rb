@@ -4,7 +4,7 @@ class UserResource < ApplicationResource
   attribute :updated_at, :datetime, writable: false
   attribute :email, :string
   attribute :password, :string
-  attribute :roles, :integer_enum, allow: User.roles.keys
+  attribute :roles, :string_enum, allow: User.roles.keys
 
   # Direct associations
 
