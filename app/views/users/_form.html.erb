@@ -1,0 +1,27 @@
+<% was_validated = user.errors.any? %>
+
+<%= form_with(model: user, local: true, novalidate: true, class: "mb-3") do |f| %>
+  <div class="form-group">
+    <% role_class = "form-control" %>
+    <% role_was_invalid = user.errors.include?(:role) %>
+
+    <% if was_validated %>
+      <% if role_was_invalid %>
+        <% role_class << " is-invalid" %>
+      <% else %>
+        <% role_class << " is-valid" %>
+      <% end %>
+    <% end %>
+
+    <%= f.label :roles %>
+    <%= f.select :roles, options_for_select(User.roles.keys), {}, class: "form-control" %>
+    <% if role_was_invalid %>
+      <% user.errors.full_messages_for(:role).each do |message| %>
+        <div class="invalid-feedback d-flex">
+          <%= message %>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+  <%= f.button class: "btn btn-outline-secondary btn-block" %>
+<% end %>

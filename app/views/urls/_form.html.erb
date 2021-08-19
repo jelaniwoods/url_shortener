@@ -1,0 +1,28 @@
+<% was_validated = url.errors.any? %>
+
+<%= form_with(model: url, local: true, novalidate: true, class: "mb-3") do |f| %>
+  <div class="form-group">
+    <% url_class = "form-control" %>
+    <% url_was_invalid = url.errors.include?(:url) %>
+
+    <% if was_validated %>
+      <% if url_was_invalid %>
+        <% url_class << " is-invalid" %>
+      <% else %>
+        <% url_class << " is-valid" %>
+      <% end %>
+    <% end %>
+
+    <%= f.label :url %>
+    <%= f.text_field :url, class: url_class, placeholder: "Enter url" %>
+    <% if url_was_invalid %>
+      <% url.errors.full_messages_for(:url).each do |message| %>
+        <div class="invalid-feedback d-flex">
+          <%= message %>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+  <%= f.hidden_field :user_id, value: current_user.id %>
+  <%= f.button class: "btn btn-outline-secondary btn-block" %>
+<% end %>
